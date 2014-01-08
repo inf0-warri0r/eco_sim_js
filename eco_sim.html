@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<!--
+Author : tharindra galahena (inf0_warri0r)
+Project: artificial life simulation - greenies and blueies (javascript virson)
+Blog : http://www.inf0warri0r.blogspot.com
+Date : 08/01/2014
+License:
+
+Copyright 2013 Tharindra Galahena
+
+This is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or (at your option) any later
+version. This is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+details.
+
+* You should have received a copy of the GNU General Public License along with
+this. If not, see http://www.gnu.org/licenses/.
+-->
+
+<html>
+<head>
+	<title>artificial life simulation - greenies and blueies</title>
+</head>
+<body>
+<p onmousedown="show_coords(event)">
+	<canvas id="myCanvas" width="600" height="600" style="border:1px solid #000000;background-color:black">
+		Your browser does not support the HTML5 canvas tag.
+	</canvas>
+</p>
+<form>
+	<button type="button" onClick="pause_func()">pause</button>
+	<button type="button" onClick="reset_func()">reset</button><br/>
+	<h4>Type : </h4>
+	<button type="button" onClick="toggle_func()" id="type">Greeny</button>
+	<h4>Speed : </h4>
+	<button type="button" onClick="speed_func('Up')">+</button>
+	<button type="button" onClick="speed_func('Down')">-</button>
+</form>
+<script src="eco.js"></script>
+<script>
+	var ec = new greeny();
+	var an = new bluey();
+
+	var started = false;
+	var step_time = 200;
+	var reset = false;
+	var pause = false;
+	var steps = 0;
+	var type = 'g';
+	
+	function callback(x, y){
+		x = Math.floor(x / 6);
+		y = Math.floor(y / 6);
+		if(x < 100 && y < 100){
+			started = true;
+			ec.env[y][x] = 1;
+		}
+	}
+
+	function callback2(x, y){
+		x = Math.floor(x / 6);
+		y = Math.floor(y / 6);
+		if(x < 100 && y < 100){
+			an.env[y][x] = 1;
+		}
+	}
+	
+	function reset_func(){
+		reset = true;
+	}
+	function pause_func(){
+		if(pause)
+			pause = false;
+		else
+			pause = true;
+	}
+	function toggle_func(){
+		if(type == 'b'){ 
+			type = 'g';
+			document.getElementById('type').innerHTML = 'Greeny'; 
+		}else{
+			type = 'b';
+			document.getElementById('type').innerHTML = 'Bluey';
+		}
+	}
+	function speed_func(c){
+		if(c == "Up"){
+			if(step_time > 0){
+				step_time = step_time - 1;
+			}
+		}else if(c == "Down"){
+			step_time = step_time + 1;
+		}
+	}
+	
+	var c=document.getElementById("myCanvas");
+	var ctx=c.getContext("2d");
+	function draw(){
+		ctx.clearRect(0, 0, 600, 600);
+		if(started && !pause){
+			steps = steps + 1;
+		}
+		for(var y = 0; y < 100; y++){
+			for(var x = 0; x < 100; x++){
+				if(ec.env[y][x] > 0){
+					ctx.fillStyle="#00FF00";
+					ctx.beginPath();
+					ctx.arc(x * 6 + 3, y * 6 + 3, ec.env[y][x] / 2, 0, 2*Math.PI);
+					ctx.stroke();
+					ctx.fill();
+				}
+				if(an.env[y][x] > 0){
+					ctx.fillStyle="#0000FF";
+					ctx.beginPath();
+					ctx.arc(x * 6 + 3, y * 6 + 3, an.env[y][x] / 2, 0, 2*Math.PI);
+					ctx.stroke();
+					ctx.fill();
+				}
+			}
+		}
+		ctx.fillStyle="#000000";
+		ctx.font="15px Arial";
+		ctx.fillText("step time : " + step_time, 10, 570);
+		ctx.fillText("steps : " + steps, 10, 590);
+	}
+	function run(){
+		if(!pause){
+			ec.next_gen(an.env);
+			an.next_gen(ec.env);
+		}
+		if(reset){
+			ec.reset();
+			an.reset();
+			reset = false;
+			started = false;
+			steps = 0;
+		}
+		draw();
+		setTimeout(run, step_time);
+	}
+	function show_coords(event){
+	
+		var x = event.clientX;
+		var y = event.clientY;
+		if(type == 'g'){
+			callback(x, y);
+		}else{
+			callback2(x, y);
+		}
+		draw();
+	}
+	run();
+</script>
+</body>
+</html>
