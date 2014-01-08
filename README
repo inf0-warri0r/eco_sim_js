@@ -1,0 +1,38 @@
+Artificial Life Simulation - Greenies and Blueies - javascript version
+===========================================================================
+
+About
+-------
+
+This is the javascript version of the  project in previously published in http://inf0warri0r.blogspot.com/2013/08/artificial-life-simulation-greenies-and.html by me. Itis to simulate two types of artificial life forms which can feed, grow and reproduce. The first type which resembles plants can reproduce and grow.  feed on first type.
+
+for more info, go to the above link.
+
+How to use
+------------
+
+Run the eco_sim.html on a browser. To make greenies click on the blak squear whin the 'Type' button says Greeny. To make bluies click the 'type' button to toggle it in to bluey and click on a greeny.
+
+use '+' or '-' buttons to set the speed of the simulation.
+
+More inf0
+-----------
+	
+Author: Tharindra Galahena
+Email : tcg.galahena@gmail.com
+Blog  : http://www.inf0warri0r.blogspot.com
+
+Licenses
+----------
+
+     Copyright 2014 Tharindra Galahena
+
+This is free software: you can redistribute it and/or modify it under the terms of 
+the GNU General Public License as published by the Free Software Foundation, either 
+version 3 of the License, or any later version. This is distributed in the hope 
+that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of 
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General 
+Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this. 
+If not, see http://www.gnu.org/licenses/. 
